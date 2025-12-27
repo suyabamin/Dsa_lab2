@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+struct Student {
+    string name;
+    int id;
+    float cgpa;
+};
+
+Student findTopper(Student arr[], int low, int high) {
+    if (low == high)
+        return arr[low];
+
+    int mid = (low + high) / 2;
+
+    Student leftTopper = findTopper(arr, low, mid);
+    Student rightTopper = findTopper(arr, mid + 1, high);
+
+    if (leftTopper.cgpa > rightTopper.cgpa)
+        return leftTopper;
+    else
+        return rightTopper;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    Student arr[n];
+    cout << "Enter name, id, cgpa for each student:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i].name >> arr[i].id >> arr[i].cgpa;
+    }
+
+    Student topper = findTopper(arr, 0, n - 1);
+
+    cout << "\nTopper:\n";
+    cout << "Name: " << topper.name << "\n";
+    cout << "ID: " << topper.id << "\n";
+    cout << "CGPA: " << topper.cgpa << "\n";
+
+    return 0;
+}
