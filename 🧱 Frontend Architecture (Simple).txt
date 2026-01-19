@@ -1,0 +1,668 @@
+🧱 Frontend Architecture (Simple)
+
+আমরা বানাবো:
+
+react-hotel-frontend/
+│
+├── src/
+│   ├── api.js
+│   ├── App.js
+│   ├── components/
+│   │   ├── Users.js
+│   │   ├── Rooms.js
+│   │   ├── Bookings.js
+│   │   ├── Payments.js
+│   │   ├── Reviews.js
+│   └── index.js
+
+⚙️ Step 1: React App তৈরি করো
+npx create-react-app react-hotel-frontend
+cd react-hotel-frontend
+npm start
+
+🌐 Step 2: Backend API Config (src/api.js)
+const API_BASE = "http://127.0.0.1:5000";
+
+export default API_BASE;
+
+
+👉 Flask server অবশ্যই চালু থাকতে হবে
+
+python main.py
+
+👤 Step 3: Users Fetch (src/components/Users.js)
+import React, { useEffect, useState } from "react";
+import API_BASE from "../api";
+
+function Users() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/users`)
+      .then(res => res.json())
+      .then(data => setUsers(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <table border="1">
+        <tr>
+          <th>ID</th><th>Name</th><th>Email</th><th>Phone</th>
+        </tr>
+        {users.map(u => (
+          <tr key={u.user_id}>
+            <td>{u.user_id}</td>
+            <td>{u.name}</td>
+            <td>{u.email}</td>
+            <td>{u.phone}</td>
+          </tr>
+        ))}
+      </table>
+    </div>
+  );
+}
+
+export default Users;
+
+
+🔹 এটা /users টেবিল fetch করে দেখাবে
+
+🏨 Step 4: Rooms Fetch (src/components/Rooms.js)
+import React, { useEffect, useState } from "react";
+import API_BASE from "../api";
+
+function Rooms() {
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/rooms`)
+      .then(res => res.json())
+      .then(data => setRooms(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Rooms</h2>
+      <table border="1">
+        <tr>
+          <th>ID</th><th>Number</th><th>Type</th><th>Price</th><th>Status</th>
+        </tr>
+        {rooms.map(r => (
+          <tr key={r.room_id}>
+            <td>{r.room_id}</td>
+            <td>{r.room_number}</td>
+            <td>{r.room_type}</td>
+            <td>{r.price}</td>
+            <td>{r.status}</td>
+          </tr>
+        ))}
+      </table>
+    </div>
+  );
+}
+
+export default Rooms;
+
+📅 Step 5: Bookings Fetch (src/components/Bookings.js)
+import React, { useEffect, useState } from "react";
+import API_BASE from "../api";
+
+function Bookings() {
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/bookings`)
+      .then(res => res.json())
+      .then(data => setBookings(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Bookings</h2>
+      <table border="1">
+        <tr>
+          <th>ID</th><th>User</th><th>Room</th><th>Status</th>
+        </tr>
+        {bookings.map(b => (
+          <tr key={b.booking_id}>
+            <td>{b.booking_id}</td>
+            <td>{b.user_name}</td>
+            <td>{b.room_number}</td>
+            <td>{b.booking_status}</td>
+          </tr>
+        ))}
+      </table>
+    </div>
+  );
+}
+
+export default Bookings;
+
+💳 Step 6: Payments Fetch (src/components/Payments.js)
+import React, { useEffect, useState } from "react";
+import API_BASE from "../api";
+
+function Payments() {
+  const [payments, setPayments] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/payments`)
+      .then(res => res.json())
+      .then(data => setPayments(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Payments</h2>
+      <table border="1">
+        <tr>
+          <th>ID</th><th>Booking</th><th>Amount</th><th>Status</th>
+        </tr>
+        {payments.map(p => (
+          <tr key={p.payment_id}>
+            <td>{p.payment_id}</td>
+            <td>{p.booking_id}</td>
+            <td>{p.amount}</td>
+            <td>{p.payment_status}</td>
+          </tr>
+        ))}
+      </table>
+    </div>
+  );
+}
+
+export default Payments;
+
+⭐ Step 7: Reviews Fetch (src/components/Reviews.js)
+import React, { useEffect, useState } from "react";
+import API_BASE from "../api";
+
+function Reviews() {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/reviews`)
+      .then(res => res.json())
+      .then(data => setReviews(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Reviews</h2>
+      <ul>
+        {reviews.map(r => (
+          <li key={r.review_id}>
+            {r.user_name} → Room {r.room_number} → ⭐ {r.rating}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default Reviews;
+
+🧠 Step 8: Main App (src/App.js)
+import Users from "./components/Users";
+import Rooms from "./components/Rooms";
+import Bookings from "./components/Bookings";
+import Payments from "./components/Payments";
+import Reviews from "./components/Reviews";
+
+function App() {
+  return (
+    <div>
+      <h1>Hotel Booking Management System</h1>
+      <Users />
+      <Rooms />
+      <Bookings />
+      <Payments />
+      <Reviews />
+    </div>
+  );
+}
+
+export default App;
+
+✅ Final Result
+
+✔ React → Flask API connect
+✔ সব টেবিল fetch করা
+✔ Simple UI
+✔ Project submission ready
+
+👉 চাইলে আমি এগুলোও করে দিতে পারি:
+
+✅ POST / PUT / DELETE Form
+
+✅ Admin Login
+
+✅ Bootstrap / Material UI
+
+✅ Sidebar Dashboard
+
+✅ Swagger থেকে Auto UI
+
+বললেই হবে 😊
+
+give me index.js
+
+নিশ্চিত 👍
+নিচে তোমার React project-এর src/index.js ফাইলের সম্পূর্ণ কোড দিলাম।
+
+📄 src/index.js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+🧠 Bangla Explanation
+
+ReactDOM.createRoot → React 18 এর নতুন way
+
+App → তোমার main component (যেখানে সব table fetch হচ্ছে)
+
+<React.StrictMode> → development এ error ধরতে সাহায্য করে
+
+index.html এর div id="root" এর ভেতরে পুরো React app render হয়
+
+🔍 public/index.html এ এটা থাকতে হবে
+<div id="root"></div>
+
+▶ Run করার জন্য
+
+1️⃣ Flask backend চালু করো
+
+python main.py
+
+
+2️⃣ React frontend চালু করো
+
+npm start
+
+
+3️⃣ Browser এ খুলবে
+
+http://localhost:3000
+
+
+যদি চাইো আমি পরের ধাপে:
+
+🔐 Login/Register
+
+➕ Add User / Room Form
+
+✏️ Edit / Delete
+
+📊 Dashboard UI
+
+সব বানিয়ে দিতে পারি।
+
+how can i run my project??
+
+আমি একদম step-by-step করে বলছি 😊
+তুমি এই order follow করলে তোমার Flask backend + React frontend ঠিকভাবে রান করবে।
+
+🚀 পুরো Project Run করার Complete Guide
+🧩 PART 1: Flask Backend Run করা
+✅ 1️⃣ Python installed আছে কিনা চেক করো
+
+Command Prompt / PowerShell খুলে লিখো:
+
+python --version
+
+
+যদি version দেখায় (3.8+ ভালো), তাহলে OK ✅
+
+✅ 2️⃣ Backend folder এ যাও
+
+যেখানে তোমার main.py আছে, সেখানে যাও:
+
+cd c:\Users\student\Downloads\sql_project_db_2-main\sql_project_db_2-main
+
+✅ 3️⃣ Required packages install করো
+pip install flask flask-swagger-ui
+
+
+যদি error হয়:
+
+python -m pip install flask flask-swagger-ui
+
+✅ 4️⃣ Database create করো (একবারই লাগবে)
+
+যে file-এ table create করার code আছে (ধরি create_db.py):
+
+python create_db.py
+
+
+এতে hotel_booking.db তৈরি হবে ✅
+
+✅ 5️⃣ Flask server চালু করো
+python main.py
+
+
+তুমি এমন output দেখবে:
+
+Running on http://127.0.0.1:5000/
+
+
+👉 Browser এ চেক করো:
+
+API: http://127.0.0.1:5000/
+
+Swagger: http://127.0.0.1:5000/swagger
+
+🧩 PART 2: React Frontend Run করা
+✅ 6️⃣ New terminal খুলে React folder এ যাও
+cd react-hotel-frontend
+
+✅ 7️⃣ Node modules install করো (একবারই)
+npm install
+
+✅ 8️⃣ React app চালু করো
+npm start
+
+
+Browser খুলবে:
+
+http://localhost:3000
+
+🔄 Backend + Frontend Connection Diagram
+React (localhost:3000)
+        |
+        | fetch()
+        ↓
+Flask API (127.0.0.1:5000)
+        |
+        ↓
+SQLite DB (hotel_booking.db)
+
+⚠️ Common Problems & Fix
+❌ React এ data আসছে না?
+
+👉 Flask চলছে কিনা চেক করো
+👉 api.js ঠিক আছে কিনা:
+
+const API_BASE = "http://127.0.0.1:5000";
+
+❌ CORS error?
+
+Flask এ add করো:
+
+pip install flask-cors
+
+from flask_cors import CORS
+CORS(app)
+
+❌ Port already in use?
+
+Flask:
+
+app.run(port=5001)
+
+
+React:
+
+npm start -- --port 3001
+
+✅ Final Checklist
+
+✔ Python installed
+✔ Flask running (5000)
+✔ Database created
+✔ React running (3000)
+✔ API connected
+
+🎯 Next Step (optional)
+
+চাও তো আমি:
+
+🔐 Login system
+
+🧾 Add/Edit forms
+
+🧭 Admin dashboard
+
+🎨 UI design (Bootstrap)
+
+সব বানিয়ে দিতে পারি।
+বললেই হবে 👍
+
+PS C:\Users\student\Downloads\sql_project_db_2-main> cd react-hotel-frontend  
+>>
+cd : Cannot find path 'C:\Users\student\Downloads\sql_project_db_2-
+main\react-hotel-frontend' because it does not exist.
+At line:1 char:1
++ cd react-hotel-frontend
++ ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\studen...-
+   hotel-frontend:String) [Set-Location], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Co
+   mmands.SetLocationCommand
+                                                     npm install
+>> C:\Users\student\Downloads\sql_project_db_2-main>
+npm : The term 'npm' is not recognized as the name of a cmdlet, function, 
+script file, or operable program. Check the spelling of the name, or if a 
+path was included, verify that the path is correct and try again.
+At line:1 char:1
++ npm install
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (npm:String) [], CommandNotFou 
+   ndException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\student\Downloads\sql_project_db_2-main> npm start
+>>
+npm : The term 'npm' is not recognized as the name of a cmdlet, function, 
+script file, or operable program. Check the spelling of the name, or if a     
+path was included, verify that the path is correct and try again.
+At line:1 char:1
++ npm start
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (npm:String) [], CommandNotFou  
+   ndException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\student\Downloads\sql_project_db_2-main>
+
+চিন্তা করো না 🙂
+তোমার error দুটো খুব common beginner problem। আমি একদম ধাপে ধাপে ঠিক করে দিচ্ছি।
+
+❌ Problem 1: react-hotel-frontend folder নাই
+Cannot find path 'react-hotel-frontend'
+
+✅ কারণ
+
+👉 তুমি এখনো React project create করোনি
+আমি আগে code দিয়েছিলাম, কিন্তু folder তৈরি করা হয়নি
+
+✅ Solution: React App Create করো (MUST)
+1️⃣ এই command চালাও (একবারই)
+cd C:\Users\student\Downloads\sql_project_db_2-main
+npx create-react-app react-hotel-frontend
+
+
+⏳ 2–5 মিনিট লাগতে পারে
+শেষে দেখাবে:
+
+Happy hacking!
+
+❌ Problem 2: npm command কাজ করছে না
+npm : The term 'npm' is not recognized
+
+✅ কারণ
+
+👉 Node.js install করা নেই
+npm → Node.js এর সাথে আসে
+
+✅ Solution: Node.js Install করো (IMPORTANT)
+🔽 Step-by-step
+
+1️⃣ Browser খুলে যাও
+👉 https://nodejs.org
+
+2️⃣ LTS version download করো (সবুজ লেখা)
+
+3️⃣ Install করার সময়:
+
+✔️ “Add to PATH” ✔️ (খুব জরুরি)
+
+Next → Next → Install
+
+4️⃣ Install শেষে PC Restart করো 🔁
+
+✅ Verify Node & npm
+
+Restart এর পর PowerShell খুলে লিখো:
+
+node --version
+npm --version
+
+
+যদি version দেখায় → সব ঠিক ✅
+
+✅ React App আবার তৈরি করো
+cd C:\Users\student\Downloads\sql_project_db_2-main
+npx create-react-app react-hotel-frontend
+
+✅ React App Run করো
+cd react-hotel-frontend
+npm start
+
+
+Browser খুলবে:
+
+http://localhost:3000
+
+🔁 Full Working Order (IMPORTANT)
+🟢 Terminal 1 (Backend)
+cd C:\Users\student\Downloads\sql_project_db_2-main\sql_project_db_2-main
+python main.py
+
+🟢 Terminal 2 (Frontend)
+cd C:\Users\student\Downloads\sql_project_db_2-main\react-hotel-frontend
+npm start
+
+🧠 Summary (Bangla)
+Problem	Fix
+react folder নাই	create-react-app চালাও
+npm নেই	Node.js install করো
+npm command fail	PC restart
+site open হচ্ছে না	Backend চালু আছে কিনা দেখো
+🔥 Next Step
+
+React open হলে বলো:
+
+data আসছে কিনা?
+
+error দেখাচ্ছে কিনা?
+
+আমি live debug করে দেবো 👍
+
+PS C:\Users\student\Downloads\sql_project_db_2-main> cd C:\Users\student\Downloads\sql_project_db_2-main
+>> npx create-react-app react-hotel-frontend
+>> 
+npx : The term 'npx' is not recognized as the name of a cmdlet, function, 
+script file, or operable program. Check the spelling of the name, or if a 
+path was included, verify that the path is correct and try again.
+At line:2 char:1
++ npx create-react-app react-hotel-frontend
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (npx:String) [], CommandNotFou 
+   ndException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+
+👍 ঠিক আছে, এখন সমস্যা একদম clear
+তোমার সিস্টেমে Node.js একদমই install নেই, তাই:
+
+npm কাজ করছে না
+
+npx কাজ করছে না
+
+আমি একদম beginner-friendly ভাবে সমাধান দিচ্ছি।
+
+❗ Root Cause (আসল সমস্যা)
+npx is not recognized
+npm is not recognized
+
+
+👉 মানে Node.js installed না
+👉 React project চালাতে Node.js MUST
+
+✅ FINAL FIX (১০০% কাজ করবে)
+🔽 Step 1: Node.js Download করো
+
+1️⃣ Browser খুলে যাও
+👉 https://nodejs.org
+
+2️⃣ Green button – LTS version ক্লিক করো
+(যেমন: 18.x বা 20.x LTS)
+
+⚙️ Step 2: Node.js Install করো
+
+Install করার সময় খুব গুরুত্বপূর্ণ:
+
+✔️ “Add to PATH” অবশ্যই tick থাকবে
+✔️ Next → Next → Install
+
+⛔ কিছু change করো না
+
+🔁 Step 3: PC Restart করো (MANDATORY)
+
+👉 Restart না করলে npm কাজ করবে না
+
+🔍 Step 4: Verify Installation
+
+Restart এর পর PowerShell খুলে লিখো:
+
+node --version
+npm --version
+npx --version
+
+
+যদি version আসে → সব ঠিক ✅
+
+⚛️ Step 5: React App Create করো
+cd C:\Users\student\Downloads\sql_project_db_2-main
+npx create-react-app react-hotel-frontend
+
+
+⏳ 2–5 মিনিট অপেক্ষা করো
+
+▶️ Step 6: React App Run করো
+cd react-hotel-frontend
+npm start
+
+
+Browser খুলবে:
+
+http://localhost:3000
+
+🧩 Backend আবার চালু রাখো
+cd C:\Users\student\Downloads\sql_project_db_2-main\sql_project_db_2-main
+python main.py
+
+📌 Quick Checklist
+Command	Should Work
+node --version	✅
+npm --version	✅
+npx --version	✅
+npm start	✅
+🆘 যদি এখনও কাজ না করে
+
+PowerShell-এ এই output paste করো:
+
+node --version
+npm --version
+
+
+আমি দেখে সাথে সাথে fix দেবো 👍
