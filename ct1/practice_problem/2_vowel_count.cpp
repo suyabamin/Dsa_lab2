@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-char found_even(char arr[],int low,int high){
+int  found_even(char arr[],int low,int high){
     //best
     if(high==low){
         if(arr[low]=='a'||arr[low]=='e'||arr[low]=='i'||arr[low]=='o'||arr[low]=='u'||arr[low]=='A'||arr[low]=='E'||arr[low]=='I'||arr[low]=='O'||arr[low]=='U'){
