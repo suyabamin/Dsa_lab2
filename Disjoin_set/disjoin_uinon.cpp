@@ -20,7 +20,7 @@ int parent_a=find_set(vert_a);
 int parent_b=find_set(vert_b);
 if(parent_a!=parent_b){
     if(ranks[parent_a]<ranks[parent_b]){
-        swap(parent_a,parent_b);
+        swap(parent_a,parent_b);   //swap the parents for consistency
     }
     parents[parent_b]=parent_a;
     if(ranks[parent_a]==ranks[parent_b]){
