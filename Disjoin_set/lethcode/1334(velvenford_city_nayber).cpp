@@ -2,9 +2,9 @@
 #include<vector>
 using namespace std;
 
-
-vector<int>run_bellman_ford(vector<vector<pair<int,int>>>&adj,int start){
+vector<int>run_bellman_ford(vector<vector<pair<int,int>>>&adj,int start=0){
 int n=adj.size();
+
 
 vector<int>dist(n,1e9);
 dist[start]=0;
@@ -23,27 +23,22 @@ for(int i=0;i<n-1;i++){
         int v=edge.first;
         int w=edge.second;
 
-
         if(dist[u]+w<dist[v])
         {
             dist[v]=dist[u]+w;
         }
-
-
       }
 
     }
 }
 
-
 return dist;
 }
 
-
 int main(){
-    int n=4;
-    int distanceThreshold=4;
-vector<vector<pair<int,int>>>adj(n);
+   int n=4;
+  int  distanceThreshold = 4;
+  vector<vector<pair<int,int>>>adj(n);
 adj[0].push_back({1,3});
 adj[1].push_back({0,3});
 
@@ -63,15 +58,13 @@ for(int i=0;i<n;i++){
     vector<int>dist=run_bellman_ford(adj,i);
     int Count=0;
     for(int j=0;j<n;j++){
-            if(i!=j && dist[j]<=distanceThreshold){
-                Count++;
-            }
-            if(Count<minCount||(Count==minCount && i>answerCity))
-            {
-                minCount=Count;
-                answerCity=i;
-            }
-
+        if(i!=j && dist[j]<=distanceThreshold){
+            Count++;
+        }
+        if(Count<minCount||(Count==minCount&& i>answerCity)){
+            minCount=Count;
+            answerCity=i;
+        }
     }
 }
 cout<<answerCity;

@@ -4,9 +4,7 @@
 
 using namespace std;
 
-// Dijkstra function
-// adj: adjacency list (u -> {v, w})
-// start: source node
+
 vector<int> run_dijkstras(vector<vector<pair<int, int>>> &adj, int start)
 {
     int n = adj.size();
@@ -20,8 +18,7 @@ vector<int> run_dijkstras(vector<vector<pair<int, int>>> &adj, int start)
     > pq;
 
     dist[start] = 0;
-    pq.push({0, start});   // (distance, node)
-
+    pq.push({0, start});
     while (!pq.empty())
     {
         auto node = pq.top();
@@ -53,17 +50,15 @@ vector<int> run_dijkstras(vector<vector<pair<int, int>>> &adj, int start)
 
 int main()
 {
-    // Example from LeetCode
-    // times = [[2,1,1],[2,3,1],[3,4,1]]
-    // n = 4, k = 2
+
 
     int n = 4;
     int k = 2;
 
-    // Graph with nodes 1..n, so size n+1
-    vector<vector<pair<int, int>>> adj(n + 1);
 
-    // Directed edges
+    vector<vector<pair<int, int>>> adj(n+1);
+
+
     adj[2].push_back({1, 1});
     adj[2].push_back({3, 1});
     adj[3].push_back({4, 1});
@@ -83,7 +78,7 @@ int main()
     }
 
 
-    cout << ans << endl;   // Output: 2
+    cout << ans << endl;
 
     return 0;
 }

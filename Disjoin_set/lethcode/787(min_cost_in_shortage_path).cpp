@@ -11,8 +11,8 @@ dist[start]=0;
 
 
 for(int i=0;i<=k;i++){
-   vector<int>temp=dist;
 
+    vector<int>temp=dist;
     for(int u=0;u<n;u++){
 
       if(dist[u]==1e9){
@@ -24,7 +24,6 @@ for(int i=0;i<=k;i++){
         int w=edge.second;
 
 
-
         if(dist[u]+w<temp[v])
         {
             temp[v]=dist[u]+w;
@@ -34,20 +33,20 @@ for(int i=0;i<=k;i++){
       }
 
     }
-    dist=temp;
+dist=temp;
 }
-if(dist[des]==1e9){
+    if(dist[des]==1e9){
         return -1;
     }
     return dist[des];
 }
 
 int main(){
-    int n = 4;
-    int src = 0;
-    int dst = 3;
-    int k = 1; // Max 1 stop
-vector<vector<pair<int,int>>>adj(n);
+    int n=4;
+    int src=0;
+    int dst=3;
+    int k=1;
+    vector<vector<pair<int,int>>>adj(n);
   adj[0].push_back({1, 100});
     adj[1].push_back({2, 100});
     adj[2].push_back({0, 100});
@@ -56,5 +55,5 @@ vector<vector<pair<int,int>>>adj(n);
 
   int cha=  run_bellman_ford(adj,src,dst,k);
   cout<<cha;
-}
 
+}
